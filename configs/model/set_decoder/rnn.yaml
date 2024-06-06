@@ -1,0 +1,32 @@
+_target_: src.models.modules.set_decoder.RNNSet
+key: rnn-set
+
+phi_dim: ${datamodule.phi_dim}
+x_dim: ${datamodule.x_dim}
+y_dim: ${datamodule.y_dim}
+
+# decoder_config: ${datamodule.mixing_architecture}
+decoder_config:
+  name: rnn
+  init_mean: 0.0
+  init_std: 0.6
+  load: False
+  n_layers: 1
+  x_dim: ${model.set_decoder.x_dim}
+  phi_dim: ${model.set_decoder.phi_dim}
+  phi_individual:
+    _target_: src.models.modules.rnn_fwd.RNNFwd
+    x_dim: ${model.set_decoder.x_dim}
+    phi_dim: ${model.set_decoder.phi_dim}
+    activation: 
+      _target_: ${datamodule.activation}
+
+  phi_aggregate:
+    _target_: src.models.modules.mlp.MLP
+    x_dim: ${model.set_decoder.phi_dim}
+    hid_dim: ${model.set_decoder.phi_dim}
+    y_dim: ${model.set_decoder.y_dim}
+    n_hidden_layers: 1
+    activation:
+      _target_: ${datamodule.activation}
+

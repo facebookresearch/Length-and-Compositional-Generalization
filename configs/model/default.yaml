@@ -1,0 +1,8 @@
+_target_: src.models.decoder_lightning.DecoderLightningModule
+name: "DecoderLightningModule"
+
+defaults:
+  # - inference: default
+  - lr_scheduler: reduce_on_plateau # options: 
+  - optimizer: default # options: default (Adam), AdamW
+  - set_decoder: deepset # options: deepset, ssm, attention

@@ -1,0 +1,28 @@
+_target_: src.models.modules.set_decoder.AttentionSet
+key: attention-set
+
+phi_dim: ${datamodule.phi_dim}
+x_dim: ${datamodule.x_dim}
+y_dim: ${datamodule.y_dim}
+
+# decoder_config: ${datamodule.mixing_architecture}
+decoder_config:
+  name: attention
+  init_mean: 0.0
+  init_std: 0.6
+  load: False
+  n_layers: 1
+  phi_individual:
+    _target_: src.models.modules.attention.Attention
+    x_dim: ${model.set_decoder.x_dim}
+    phi_dim: ${model.set_decoder.phi_dim}
+    attention_fn: ${datamodule.mixing_architecture.phi_individual.attention_fn} # sigmoid, softmax, relu, linear
+
+  phi_aggregate:
+    _target_: src.models.modules.mlp.MLP
+    x_dim: ${model.set_decoder.phi_dim}
+    hid_dim: ${model.set_decoder.phi_dim}
+    y_dim: ${model.set_decoder.y_dim}
+    n_hidden_layers: 1
+    activation:
+      _target_: ${datamodule.activation}

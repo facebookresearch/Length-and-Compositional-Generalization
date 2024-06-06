@@ -1,0 +1,27 @@
+# @package _global_
+
+defaults:
+  - override /datamodule: ssm
+  - override /model/set_decoder: ssm
+  # - override /model/encoder_config/phi_individual/requires_grad: True
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+# name of the run determines folder name in logs
+name: "ssm_lg"
+run_name: "train-${datamodule.datasets.train.seq_max_length}-val-${datamodule.datasets.val.seq_max_length}-xdim-${datamodule.x_dim}-phi_dim-${datamodule.phi_dim}-ydim-${datamodule.y_dim}"
+
+track_gradients: Yes
+overfit_batch: 0
+
+trainer:
+  devices: [0] # 'auto', or numbers like 2, [0]
+  accelerator: 'gpu' #cpu, tpu, (devices=4, accelerator="gpu", strategy="ddp"), (devices="auto", accelerator="auto")
+  max_epochs: 1000
+  min_epochs: 1000
+
+logger:
+  wandb:
+    tags:
+    notes:

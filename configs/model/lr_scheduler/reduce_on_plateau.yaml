@@ -1,0 +1,41 @@
+_target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+
+mode: "min"
+factor: 0.8
+patience: 1
+threshold: 0.000001
+threshold_mode: "abs"
+cooldown: 1
+min_lr: 1e-7
+eps: 1e-8
+verbose: True
+
+# _target_: torch.optim.lr_scheduler.CosineAnnealingWarmRestarts
+# T_0: 20
+# T_mult: 1 
+# eta_min: 0
+
+#     scheduler:  # the schedule instance defined above – will be passed from the code (in configure_optimizer)
+interval: "epoch" # The unit of the scheduler's step size. 'step' or 'epoch
+frequency: 1 # corresponds to updating the learning rate after every `frequency` epoch/step
+monitor: val/loss # Used by a LearningRateMonitor callback when ReduceLROnPlateau is used 
+
+
+# scheduler:
+#     _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+#     mode: 'min'
+#     factor: 0.99
+#     patience: 2
+#     threshold: 0.01
+#     threshold_mode: 'abs'
+#     cooldown: 2
+#     min_lr: 1e-7
+#     eps: 1e-8
+#     verbose: True
+    
+# scheduler_dict:
+# #     scheduler:  # scheduler instance, will be passed inside configure_optimizer
+#     interval: "epoch"  # The unit of the scheduler's step size. 'step' or 'epoch
+#     frequency: 1  # corresponds to updating the learning rate after every `frequency` epoch/step
+#     monitor: val/loss # train_loss # Used by a LearningRateMonitor callback when ReduceLROnPlateau is used
+#     name: "ReduceLROnPlateau"

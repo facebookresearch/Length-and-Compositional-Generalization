@@ -1,0 +1,31 @@
+_target_: src.models.modules.set_decoder.DeepSet
+key: deepset
+
+phi_dim: ${datamodule.phi_dim}
+x_dim: ${datamodule.x_dim}
+y_dim: ${datamodule.y_dim}
+# decoder_config: ${datamodule.mixing_architecture}
+decoder_config:
+  name: deepset
+  init_mean: 0.0
+  init_std: 0.6
+  load: False
+  n_layers: 1
+  phi_individual:
+    _target_: src.models.modules.mlp.MLP
+    x_dim: ${datamodule.x_dim}
+    hid_dim: ${datamodule.phi_dim}
+    y_dim: ${datamodule.phi_dim}
+    n_hidden_layers: 1
+    activation:
+      _target_: ${datamodule.activation}
+
+  phi_aggregate:
+    _target_: src.models.modules.mlp.MLP
+    x_dim: ${datamodule.phi_dim}
+    hid_dim: ${datamodule.phi_dim}
+    y_dim: ${datamodule.y_dim}
+    n_hidden_layers: 1
+    activation:
+      _target_: ${datamodule.activation}
+

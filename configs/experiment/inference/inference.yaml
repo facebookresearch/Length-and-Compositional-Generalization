@@ -1,0 +1,39 @@
+# @package _global_
+
+
+defaults:
+  - override /datamodule: ???
+  - override /model: load_from_pretrained.yaml
+  - _self_
+
+
+# name of the run determines folder name in logs
+name: "${datamodule.key}_lg"
+run_name: "inference-test-${datamodule.datasets.test.seq_min_length}-xdim-${datamodule.x_dim}-phi_dim-${datamodule.phi_dim}-ydim-${datamodule.y_dim}"
+
+track_gradients: Yes
+overfit_batch: 0
+
+trainer:
+  devices: [0] # 'auto', or numbers like 2, [0]
+  accelerator: 'gpu' #cpu, tpu, (devices=4, accelerator="gpu", strategy="ddp"), (devices="auto", accelerator="auto")
+
+datamodule:
+  x_dim: ${extract_dim_from_ckpt:${model.checkpoint_path},xdim}
+  phi_dim: ${extract_dim_from_ckpt:${model.checkpoint_path},phi_dim}
+  y_dim: ${extract_dim_from_ckpt:${model.checkpoint_path},ydim}
+
+  mixing_architecture:
+    load: True
+    phi_individual_path: ${phi_path:${model.checkpoint_path},phi_individual.pt}
+    phi_aggregate_path: ${phi_path:${model.checkpoint_path},phi_aggregate.pt}
+
+model:
+  checkpoint_path: ???
+  substitute_config:
+    model_params:  
+      
+logger:
+  wandb:
+    tags:
+    notes:

@@ -1,0 +1,24 @@
+name: ???
+
+dataset_target_: ???
+_target_: ??? # the datamodule class
+
+dataset_parameters:
+  seed: ${seed}
+  batch_size: ???
+  num_workers: ???
+
+datasets:
+  seed: ${seed}
+  test:
+      _target_: ${datamodule.dataset_target_}
+      split: "test"
+  
+  train:
+      _target_: ${datamodule.dataset_target_}
+      split: "train"
+      
+  val:
+      _target_: ${datamodule.dataset_target_}
+      split: "val"
+
