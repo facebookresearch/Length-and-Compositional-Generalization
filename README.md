@@ -116,3 +116,7 @@ CKPT="path/to/run_dir/checkpoints/last.ckpt"
 
 python3 run_inference.py +experiment/inference=inference datamodule=rnn datamodule.mixing_architecture.load=True trainer.accelerator="cpu" trainer.devices="auto" datamodule.dataset_parameters.batch_size=256 "model.checkpoint_path='$CKPT'" datamodule.datasets.test.seq_min_length=100
 ```
+
+## License 
+
+This project is licensed under CC-BY-NC as seen in License file
